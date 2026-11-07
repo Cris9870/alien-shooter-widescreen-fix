@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- .NET Framework 4.8 ships with Windows 10/11, so the launcher runs without installing anything. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>AlienShooterLauncher</AssemblyName>
+    <RootNamespace>AlienShooterLauncher</RootNamespace>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Product>Alien Shooter Widescreen Fix</Product>
+    <Description>Launcher del modo alta resolucion para Alien Shooter</Description>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\icon.ico" />
+    <!-- The upscaler DLL travels inside the launcher and is installed into the game folder.
+         Build upscaler\d3d9.dll first. Game art is NOT embedded: it is read from the player's copy. -->
+    <EmbeddedResource Include="..\upscaler\d3d9.dll" LogicalName="d3d9.dll" />
+  </ItemGroup>
+
+</Project>

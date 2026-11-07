@@ -1,0 +1,52 @@
+ALIEN SHOOTER - ALTA RESOLUCION (panoramico, ultrawide y 4K)
+==============================================================
+
+Necesitas Alien Shooter instalado (version de Steam). Este programa no incluye el juego.
+
+Como empezar
+------------
+1. Descomprime esta carpeta donde quieras.
+2. Abre "Alien Shooter Launcher.exe". Encuentra solo el juego en tu biblioteca de Steam.
+3. Deja activado MODO ALTA RESOLUCION, elige las opciones y pulsa JUGAR.
+
+Despues tambien puedes abrir el juego desde Steam: usa los ultimos ajustes del lanzador.
+Si Windows avisa ("Windows protegio su PC"): Mas informacion -> Ejecutar de todas formas.
+
+Opciones del lanzador
+---------------------
+  MODO ALTA RESOLUCION  activa o desactiva el arreglo (desactivado = juego original).
+  PANTALLA ............ monitor o TV donde se abre el juego.
+  RESOLUCION .......... NATIVA = la de esa pantalla, sin cambiar el modo de video.
+                        Otras (QHD, FULL HD, 4K...) cambian la resolucion al jugar.
+                        4K solo esta disponible si la pantalla elegida lo admite
+                        (una TV 4K, o un monitor con DSR de NVIDIA / VSR de AMD).
+  ZOOM ................ resolucion interna del juego. NORMAL = escala x2 exacta
+                        (1720x720 en un monitor 3440x1440, 1920x1080 en una TV 4K).
+                        CERCA = personajes mas grandes. LEJOS = ves mas mapa.
+  IMAGEN .............. pixeles nitidos o imagen suavizada.
+  Raton fijo .......... el raton no se escapa a otra pantalla mientras juegas.
+  RESPALDAR PARTIDAS .. copia la carpeta saves del juego a respaldos\ (junto al lanzador).
+
+Para jugar en una TV 4K: elige su PANTALLA, resolucion NATIVA y zoom NORMAL.
+
+Quitarlo
+--------
+Desactiva MODO ALTA RESOLUCION en el lanzador, o borra d3d9.dll y d3d9_upscale.ini
+de la carpeta del juego. El AlienShooter.exe nunca se modifica.
+
+Instalacion manual (sin lanzador)
+---------------------------------
+Copia los dos archivos de la carpeta instalacion-manual a la carpeta del juego
+(normalmente C:\Program Files (x86)\Steam\steamapps\common\Alien Shooter)
+y ajusta d3d9_upscale.ini con el Bloc de notas: cada opcion esta explicada.
+
+Problemas o sugerencias: https://github.com/Cris9870/alien-shooter-widescreen-fix/issues
+Adjunta el archivo d3d9_upscale.log de la carpeta del juego.
+
+---
+English: Alien Shooter widescreen fix (Steam version). Run "Alien Shooter Launcher.exe",
+pick a screen, resolution and zoom, and press JUGAR ("play"). To remove it, switch the
+fix off in the launcher or delete d3d9.dll and d3d9_upscale.ini from the game folder.
+
+Proyecto de aficionados, sin relacion con Sigma Team. Alien Shooter es (c) Sigma Team.
+Licencia: PolyForm Noncommercial 1.0.0 (ver LICENSE).

@@ -1,0 +1,27 @@
+# Build output
+bin/
+obj/
+/dist/
+/launcher/publish/
+/upscaler/*.dll
+/upscaler/*.obj
+/upscaler/*.lib
+/upscaler/*.exp
+*.exe
+
+# Never commit anything from the game: players supply their own copy.
+*.BMP
+*.bmp
+*.vid
+*.map
+*.wav
+*.ani
+
+# One machine's files: backups of the game and its saves, launcher backups, local notes
+/backup_original/
+/respaldos/
+/CLAUDE.md
+/.claude/
+/Instalar_Ultrawide.bat
+/Desinstalar_Ultrawide.bat
+/captura_*.png
