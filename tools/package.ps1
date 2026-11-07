@@ -9,7 +9,7 @@ cmd /c "`"$root\upscaler\build.bat`""
 if ($LASTEXITCODE) { throw "No se pudo compilar d3d9.dll" }
 
 Write-Host "== launcher $version"
-dotnet build "$root\launcher\AlienShooterLauncher.csproj" -c Release -nologo -p:Version=$version
+dotnet build "$root\launcher\AlienShooterLauncher.csproj" -c Release -nologo   # version comes from VERSION
 if ($LASTEXITCODE) { throw "No se pudo compilar el lanzador" }
 
 $dist = Join-Path $root 'dist'

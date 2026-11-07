@@ -160,6 +160,12 @@ public sealed class GameConfig
         return dst;
     }
 
+    /// <summary>After a launcher update: replace an installed DLL with the one this launcher carries.</summary>
+    public void RefreshInstalledDll()
+    {
+        if (Enabled && DllInstalled && !GameRunning) InstallDll();
+    }
+
     void InstallDll()
     {
         using var res = Assembly.GetExecutingAssembly().GetManifestResourceStream("d3d9.dll")

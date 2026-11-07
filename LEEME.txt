@@ -12,6 +12,11 @@ Como empezar
 Despues tambien puedes abrir el juego desde Steam: usa los ultimos ajustes del lanzador.
 Si Windows avisa ("Windows protegio su PC"): Mas informacion -> Ejecutar de todas formas.
 
+Actualizaciones: al abrirse, el lanzador comprueba si hay una version nueva en GitHub
+y lo avisa abajo a la izquierda. Pulsa ACTUALIZAR: se descarga, se comprueba y se
+instala sola, sin tocar tus ajustes ni tus partidas. Sin conexion no hace nada.
+(No pongas esta carpeta en "Archivos de programa": ahi no podria actualizarse.)
+
 Opciones del lanzador
 ---------------------
   MODO ALTA RESOLUCION  activa o desactiva el arreglo (desactivado = juego original).

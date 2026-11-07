@@ -110,7 +110,31 @@ A WPF app on .NET Framework 4.8, which ships with Windows 10/11.
 - **Starting the game:** it starts the game through `steam://rungameid/33100`.
 - **Finding the game:** it looks in the default Steam path, then in the Steam libraries listed in `libraryfolders.vdf`.
 - **Game art at runtime:** everything game-looking is read from the player's installation when the launcher runs: the background and the logo (`Vid/957_0.BMP`, `Vid/game_logo.bmp`, with the logo's black made transparent), the loading screens shown on the "security camera", the cursor (`cursores/arrow.ani`) and the sounds (`Wav/`). Nothing from the game is embedded.
-- **Snapshot:** `AlienShooterLauncher.exe --snapshot out.png` renders the window to a PNG without showing it.
+- **Snapshot:** `AlienShooterLauncher.exe --snapshot out.png [--fake-update X.Y.Z]` renders the window to a PNG without showing it. The optional flag also shows the update notice.
+
+### Self-update (`launcher/Updater.cs`)
+
+- **Check.** On start the launcher asks the GitHub API for this repo's latest release (`/releases/latest`). It offers an update only if all of these hold:
+  - the tag (`vX.Y.Z`) is newer than the launcher's own version, which comes from the `VERSION` file at build time;
+  - the release has the asset `AlienShooterWidescreenFix-windows.zip`;
+  - GitHub publishes a `sha256:` digest for that asset.
+
+  If the PC is offline or GitHub cannot be reached, nothing is shown.
+- **Update** (the ACTUALIZAR button):
+  1. download the zip to `%TEMP%`;
+  2. compare its SHA-256 with GitHub's digest;
+  3. unpack it to a separate folder;
+  4. rename the running exe to `.old` (a running exe can be renamed but not overwritten);
+  5. copy the new exe in its place. If the copy fails, the old exe is renamed back;
+  6. copy the rest of the package (best effort) and start the new launcher with `--updated`.
+- **First start after an update:** the new launcher deletes the `.old` file. If the fix is enabled and the game is closed, it also replaces `d3d9.dll` in the game folder with the one it carries.
+- **Test:** `--update-now` runs a check and an update without a window and writes the result to `<exe>.update.log`. To exercise a real update, build with a lower version (`-p:Version=0.9.0`) and run that.
+
+**Releasing:**
+1. Bump `VERSION`.
+2. Run `tools/package.ps1`.
+3. Tag `vX.Y.Z`.
+4. Create the GitHub release with the zip attached. GitHub computes the digest itself.
 
 ## Building
 

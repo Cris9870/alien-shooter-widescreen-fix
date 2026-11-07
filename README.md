@@ -25,6 +25,12 @@ lanzador toma su aspecto (logo, fondos, sonidos y cursor) de tu propia copia del
 A partir de ahí también puedes abrir el juego directamente desde Steam: usa los últimos ajustes del
 lanzador. No hace falta instalar nada más: el lanzador funciona con lo que ya trae Windows 10/11.
 
+**Actualizaciones automáticas** (desde la 1.1.0): al abrirse, el lanzador comprueba si hay una versión
+nueva en GitHub. Si la hay, lo avisa abajo a la izquierda; pulsa **ACTUALIZAR** y se descarga, se
+comprueba y se instala sola en unos segundos, sin tocar tus ajustes ni tus partidas. Sin conexión no
+hace nada. Si tienes la 1.0.0, descarga la última versión a mano una vez y cópiala encima: a partir
+de ahí se actualiza sola.
+
 > **Windows protegió su PC**: al ser un programa nuevo y sin firma digital, Windows puede avisar la
 > primera vez. Pulsa **Más información → Ejecutar de todas formas**.
 
@@ -52,6 +58,7 @@ lanzador. No hace falta instalar nada más: el lanzador funciona con lo que ya t
 | **Ratón** | — | Apunta donde debe y no se escapa a otra pantalla mientras juegas |
 | **Imagen** | — | *Nítida* (píxeles definidos) o *Suave* (suavizada) |
 | **El juego** | — | El `.exe` original **no se modifica**; se desactiva con un clic |
+| **Actualizaciones** | — | El lanzador avisa de las versiones nuevas y se actualiza solo con un botón |
 
 ## Capturas
 
@@ -73,6 +80,10 @@ Los tres niveles de zoom del lanzador en el mismo punto del nivel 1, a 3440×144
 - **¿4K aparece como "no disponible"?** Solo aparece disponible si la pantalla elegida tiene ese
   modo. Elige tu TV 4K en *Pantalla*, o activa DSR (NVIDIA) o VSR (AMD) para usarla en un monitor
   de menor resolución.
+- **¿Cómo actualizo?** El lanzador te avisa cuando hay una versión nueva: pulsa **ACTUALIZAR**. La
+  descarga se verifica con la huella SHA-256 que publica GitHub antes de instalar nada; si algo
+  falla, tu versión actual queda intacta. También puedes descargar el zip y copiarlo encima. Si
+  tienes el lanzador en *Archivos de programa*, muévelo a otra carpeta para que pueda actualizarse.
 - **¿Cómo lo quito?** Desactiva *MODO ALTA RESOLUCIÓN* en el lanzador (borra la DLL de la carpeta
   del juego) o borra a mano `d3d9.dll` y `d3d9_upscale.ini` de la carpeta del juego.
 - **¿Toca mis partidas?** No. El botón *RESPALDAR PARTIDAS* copia la carpeta `saves` del juego a
@@ -104,7 +115,9 @@ juego y carga la `d3d9.dll` real de Windows. Al arrancar:
   DLL las traduce a las coordenadas del juego, en cualquier monitor.
 
 El **lanzador** (`launcher/`, WPF) escribe los ajustes, instala o quita la DLL (va incluida dentro del
-lanzador) y abre el juego desde Steam. Notas técnicas detalladas (en inglés):
+lanzador) y abre el juego desde Steam. Su **actualizador** (`launcher/Updater.cs`) consulta la última
+release de GitHub, descarga el zip, comprueba su SHA-256, lo descomprime aparte y solo entonces
+reemplaza el lanzador (y la DLL del juego, si estaba instalada). Notas técnicas detalladas (en inglés):
 [docs/TECHNICAL.md](docs/TECHNICAL.md).
 
 ### Compilar desde el código
@@ -146,7 +159,9 @@ game ships here; the launcher reads the game's art, sounds and cursor from your 
 [`AlienShooterWidescreenFix-windows.zip`](https://github.com/Cris9870/alien-shooter-widescreen-fix/releases/latest/download/AlienShooterWidescreenFix-windows.zip),
 unzip it, run `Alien Shooter Launcher.exe`, pick a screen, resolution and zoom, and press **JUGAR**
 ("play"). It finds the game in your Steam library. After that, launching from Steam uses the same
-settings. The launcher is in Spanish.
+settings. The launcher is in Spanish. **Updates** (from 1.1.0): the launcher checks GitHub Releases
+on start and updates itself with one click (ACTUALIZAR); the download is checked against GitHub's
+SHA-256 before anything is replaced, and your settings and saves are untouched.
 
 | | Original game | With this fix |
 |---|---|---|

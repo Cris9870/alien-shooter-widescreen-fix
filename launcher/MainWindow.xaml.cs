@@ -19,7 +19,9 @@ public partial class MainWindow : Window
     readonly Dictionary<string, SoundPlayer> _sounds = new();
     bool _loading;
 
-    public MainWindow()
+    UpdateInfo? _update;
+
+    public MainWindow(bool checkUpdates = true, bool justUpdated = false)
     {
         InitializeComponent();
         LoadGameCursorAndSounds();
@@ -35,6 +37,77 @@ public partial class MainWindow : Window
         BuildFilter();
         Refresh();          // only updates the view; nothing is written until the user changes something
         _loading = false;
+
+        Title = $"Alien Shooter Launcher {Updater.Current.ToString(3)}";
+        VersionText.Text = $"v{Updater.Current.ToString(3)}";
+        if (justUpdated) FinishUpdate();
+        if (checkUpdates) Loaded += async (_, _) => await CheckUpdatesAsync();
+    }
+
+    // ------------------------------------------------------------------ updates
+
+    async Task CheckUpdatesAsync()
+    {
+        try
+        {
+            var update = await Updater.CheckAsync();
+            if (update != null) ShowUpdate(update);
+        }
+        catch (Exception)
+        {
+            // Offline or GitHub unreachable: nothing to show.
+        }
+    }
+
+    public void ShowUpdate(UpdateInfo update)
+    {
+        _update = update;
+        UpdateText.Text = $"NUEVA VERSIÓN {update.Version.ToString(3)} DISPONIBLE";
+        UpdateBanner.ToolTip = string.IsNullOrEmpty(update.Title) ? null : update.Title;
+        UpdateBanner.Visibility = Visibility.Visible;
+    }
+
+    async void OnUpdate(object sender, RoutedEventArgs e)
+    {
+        if (_update == null) return;
+        if (GameConfig.GameRunning)
+        {
+            Play("mouse_error");
+            UpdateText.Text = "CIERRA EL JUEGO PARA ACTUALIZAR";
+            return;
+        }
+        Play("mouse_click");
+        UpdateButton.IsEnabled = false;
+        PlayButton.IsEnabled = false;
+        try
+        {
+            await Updater.ApplyAsync(_update, new Progress<string>(s => UpdateText.Text = s.ToUpperInvariant()));
+            Updater.Restart();
+            Application.Current.Shutdown();
+        }
+        catch (Exception ex)
+        {
+            UpdateText.Text = "NO SE PUDO ACTUALIZAR";
+            StatusText.Text = "No se pudo actualizar: " + ex.Message +
+                              ". Tu versión actual sigue intacta; también puedes descargar la nueva desde GitHub.";
+            UpdateButton.IsEnabled = true;
+            PlayButton.IsEnabled = _cfg.GameFound;
+        }
+    }
+
+    // First start after an update: remove the old launcher and refresh the DLL it carries.
+    void FinishUpdate()
+    {
+        _ = Updater.CleanupAsync();
+        try
+        {
+            _cfg.RefreshInstalledDll();
+            StatusText.Text = $"Actualizado a la versión {Updater.Current.ToString(3)}.";
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = $"Actualizado a la versión {Updater.Current.ToString(3)}, pero no se pudo poner la DLL nueva: {ex.Message}";
+        }
     }
 
     // ------------------------------------------------------------------ option chips

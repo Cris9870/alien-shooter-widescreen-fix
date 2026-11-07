@@ -1,21 +1,58 @@
+using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
 
 namespace AlienShooterLauncher;
 
 public partial class App : Application
 {
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        var window = new MainWindow();
+        var args = e.Args;
 
-        // "--snapshot file.png" renders the launcher off-screen and exits.
-        if (e.Args.Length == 2 && e.Args[0] == "--snapshot")
+        // "--update-now": check and install the latest release without a window, write the
+        // result to "<launcher>.update.log" and exit. Used to test the updater.
+        if (args.Contains("--update-now"))
         {
-            window.RenderSnapshot(e.Args[1]);
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            string log = Updater.ExePath + ".update.log";
+            try
+            {
+                var update = await Updater.CheckAsync();
+                if (update == null)
+                {
+                    File.WriteAllText(log, $"sin novedades ({Updater.Current})");
+                }
+                else
+                {
+                    await Updater.ApplyAsync(update, new Progress<string>());
+                    File.WriteAllText(log, $"actualizado {Updater.Current} -> {update.Version}");
+                }
+            }
+            catch (Exception ex)
+            {
+                File.WriteAllText(log, "error: " + ex.Message);
+            }
             Shutdown();
             return;
         }
-        window.Show();
+
+        // "--snapshot file.png [--fake-update X.Y.Z]" renders the launcher off-screen and exits.
+        int snap = Array.IndexOf(args, "--snapshot");
+        if (snap >= 0 && snap + 1 < args.Length)
+        {
+            var window = new MainWindow(checkUpdates: false);
+            int fake = Array.IndexOf(args, "--fake-update");
+            if (fake >= 0 && fake + 1 < args.Length)
+                window.ShowUpdate(new UpdateInfo(new Version(args[fake + 1]), "", "", ""));
+            window.RenderSnapshot(args[snap + 1]);
+            Shutdown();
+            return;
+        }
+
+        var main = new MainWindow(checkUpdates: true, justUpdated: args.Contains("--updated"));
+        main.Show();
     }
 }

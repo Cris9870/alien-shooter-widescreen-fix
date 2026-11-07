@@ -220,7 +220,7 @@
             </Rectangle>
 
             <!-- Security camera showing the game's loading screens (from the player's copy) -->
-            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,292,0,0" Width="548" Height="413"
+            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,276,0,0" Width="548" Height="413"
                     BorderBrush="{StaticResource Steel}" BorderThickness="4" Background="Black">
                 <Grid ClipToBounds="True">
                     <Image x:Name="CamA" Stretch="UniformToFill"/>
@@ -279,6 +279,24 @@
                     <Button Style="{StaticResource WindowButton}" Content="✕" Click="OnClose"/>
                 </StackPanel>
             </Grid>
+
+            <!-- Update notice -->
+            <Border x:Name="UpdateBanner" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    Margin="40,0,0,40" Width="548" Height="40" Background="#EE121619"
+                    BorderBrush="{StaticResource Steel}" BorderThickness="2">
+                <Grid Margin="12,0,4,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Rectangle Fill="{StaticResource Hazard}" Width="34" Height="10" Margin="0,0,10,0"/>
+                        <TextBlock x:Name="UpdateText" FontFamily="{StaticResource Stencil}" FontSize="16"
+                                   Foreground="{StaticResource RedText}" Effect="{StaticResource TextGlow}"/>
+                    </StackPanel>
+                    <Button x:Name="UpdateButton" Style="{StaticResource GameButton}" HorizontalAlignment="Right"
+                            Height="28" Padding="16,0" FontSize="14" Content="ACTUALIZAR" Click="OnUpdate"/>
+                </Grid>
+            </Border>
+
+            <TextBlock x:Name="VersionText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250,9,0,0"
+                       FontFamily="{StaticResource Stencil}" FontSize="13" Foreground="#5F676E"/>
 
             <!-- Version / status bottom-left -->
             <TextBlock x:Name="StatusText" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,14"
